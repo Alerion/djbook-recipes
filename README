@@ -1,0 +1,6 @@
+Test project for writing recipes about Django and ExtJs.
+
+Now you can find base of project. It contains: 
+1) Base project with my view-router for Ext.Direct;
+2) Ext.ux.msg from ExtJs examples for message display; 
+3) example of loading mask from  ExtJs examples.
