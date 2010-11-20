@@ -39,6 +39,13 @@ class RpcRouterJSONEncoder(simplejson.JSONEncoder):
         else:
             return super(RpcRouterJSONEncoder, self).default(o)
 
+class RpcExceptionEvent(Exception):
+    """
+    This exception is sent to server as Ext.Direct.ExceptionEvent.
+    So we can handle it in client and show pretty message for user.
+    """
+    pass
+
 class RpcRouter(object):
     """
     Router for Ext.Direct calls.
@@ -50,15 +57,23 @@ class RpcRouter(object):
         self.enable_buffer = enable_buffer    
 
     def api(self, request, *args, **kwargs):
+        """
+        This method is view that send js for provider initialization.
+        Just set this in template after ExtJs including:
+        <script src="{% url api_url_name %}"></script>  
+        """
         obj = simplejson.dumps(self, cls=RpcRouterJSONEncoder, url_args=args, url_kwargs=kwargs)
         return HttpResponse('Ext.Direct.addProvider(%s)' % obj)
 
     def __call__(self, request, *args, **kwargs):
+        """
+        This method is view that receive requests from Ext.Direct.
+        """
         user = request.user
         POST = request.POST
 
         if POST.get('extAction'):
-            #Forms not supported yet
+            #This is request from Ext.form.Form
             requests = {
                 'action': POST.get('extAction'),
                 'method': POST.get('extMethod'),
@@ -68,6 +83,7 @@ class RpcRouter(object):
             }
     
             if requests['upload']:
+                #This is form with files
                 requests['data'].append(request.FILES)
                 output = simplejson.dumps(self.call_action(requests, user))
                 return HttpResponse('<script>document.domain=document.domain;</script><textarea>%s</textarea>' \
@@ -83,16 +99,29 @@ class RpcRouter(object):
         return HttpResponse(simplejson.dumps(output, cls=DjangoJSONEncoder), mimetype="application/json")    
     
     def action_extra_kwargs(self, action, request, *args, **kwargs):
+        """
+        Check maybe this action get some extra arguments from request
+        """
         if hasattr(action, '_extra_kwargs'):
             return action._extra_kwargs(request, *args, **kwargs)
         return {}
     
     def extra_kwargs(self, request, *args, **kwargs):
+        """
+        For all method in ALL actions we add request.user to arguments. 
+        You can add something else, request for example.
+        For adding extra arguments for one action use action_extra_kwargs.
+        """
         return {
             'user': request.user
         }
 
     def call_action(self, rd, request, *args, **kwargs):
+        """
+        This method checks parameters of Ext.Direct request and call method of action.
+        It checks arguments number, method existing, handle RpcExceptionEvent and send
+        exception event for Ext.Direct.
+        """
         method = rd['method']
         
         if not rd['action'] in self.actions:
@@ -101,7 +130,7 @@ class RpcRouter(object):
                 'type': 'exception',
                 'action': rd['action'],
                 'method': method,
-                'result': {'error': 'Undefined action class'}
+                'message': 'Undefined action class'
             }
         
         action = self.actions[rd['action']]
@@ -124,13 +153,22 @@ class RpcRouter(object):
                 'type': 'exception',
                 'action': rd['action'],
                 'method': method,
-                'result': {'error': 'Incorrect arguments number'}
+                'message': 'Incorrect arguments number'
             }
         
-        return {
-            'tid': rd['tid'],
-            'type': 'rpc',
-            'action': rd['action'],
-            'method': method,
-            'result': func(*args, **extra_kwargs)
-        }
+        try:
+            return {
+                'tid': rd['tid'],
+                'type': 'rpc',
+                'action': rd['action'],
+                'method': method,
+                'result': func(*args, **extra_kwargs)
+            }
+        except RpcExceptionEvent, e:
+            return {
+                'tid': rd['tid'],
+                'type': 'exception',
+                'action': rd['action'],
+                'method': method,
+                'message': unicode(e)
+            }            
