@@ -5,6 +5,9 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import simplejson
 
 class RpcRouterJSONEncoder(simplejson.JSONEncoder):
+    """
+    JSON Encoder for RpcRouter
+    """
     
     def __init__(self, url_args, url_kwargs, *args, **kwargs):
         self.url_args = url_args
@@ -37,7 +40,10 @@ class RpcRouterJSONEncoder(simplejson.JSONEncoder):
             return super(RpcRouterJSONEncoder, self).default(o)
 
 class RpcRouter(object):
-
+    """
+    Router for Ext.Direct calls.
+    """
+    
     def __init__(self, url, actions={}, enable_buffer=True):
         self.url = url
         self.actions = actions
