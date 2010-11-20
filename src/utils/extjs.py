@@ -112,7 +112,7 @@ class RpcRouter(object):
                 func_args.remove(name)
         
         required_args_count = len(func_args) - len(func_defaults or [])
-        if (required_args_count - len(args)) > 0 or (not varargs and len(args) > required_args_count):
+        if (required_args_count - len(args)) > 0 or (not varargs and len(args) > len(func_args)):
             return {
                 'tid': rd['tid'],
                 'type': 'exception',
