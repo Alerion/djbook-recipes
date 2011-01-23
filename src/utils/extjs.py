@@ -86,7 +86,7 @@ class RpcRouter(object):
                 #This is form with files
                 requests['data'].append(request.FILES)
                 output = simplejson.dumps(self.call_action(requests, user))
-                return HttpResponse('<script>document.domain=document.domain;</script><textarea>%s</textarea>' \
+                return HttpResponse('<textarea>%s</textarea>' \
                                     % output)
         else:
             try:
