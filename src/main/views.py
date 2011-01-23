@@ -1,5 +1,4 @@
-from decorators import render_to
+from django.views.generic.simple import direct_to_template
 
-@render_to('main/index.html')
 def index(request):
-    return {}
+    return direct_to_template(request, 'main/index.html')

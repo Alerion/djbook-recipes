@@ -60,4 +60,9 @@
     text-align:center;
     height:auto;
 }
+#loading .loading-indicator img {
+    width: 100px;
+    height: 100px;
+    margin-right:8px;
+}
 /***************************/
