@@ -66,3 +66,11 @@
     margin-right:8px;
 }
 /***************************/
+
+ .project-wrap {
+     margin-bottom: 10px;
+ }
+
+ .project-wrap h3 {
+     cursor: pointer;
+ }
