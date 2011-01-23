@@ -22,9 +22,13 @@ Ext.ux.MainViewport = Ext.extend(Ext.Viewport, {
                 }]
             },{
                 //еще одна панель
-                region: 'west',
-                html: 'West',
-                width: 350
+                region: 'east',
+                width: 350,
+                xtype: 'ext:ux:projects-panel'
+            },{
+                region: 'north',
+                contentEl: 'header',
+                height: 40                
             }]
         }
         //В this.initialConfig находяться опции передаваемые при создании компонента.

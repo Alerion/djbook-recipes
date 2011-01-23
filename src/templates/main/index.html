@@ -6,4 +6,12 @@
             var vp = new Ext.ux.MainViewport();
         });
     </script>
+    
+    <div id="header">
+        <h1 style="float: left">TASK RULER</h1>
+        <p style="float: right; font-size: 1.2em">
+            {{ user }}
+            <a href="{% url logout %}?next=/">Logout</a>
+        </p>
+    </div>
 {% endblock %}

@@ -15,10 +15,12 @@
     <script src="{{ MEDIA_URL }}extjs/ext-all.js"></script>
     <!-- Extension for message display -->
     <script src="{{ MEDIA_URL }}js/Ext.ux.msg.js"></script>
-    <!-- Our main viewport -->
-    <script src="{{ MEDIA_URL }}js/Ext.ux.MainViewport.js"></script>
     <!-- Initialization of Ext.Direct provider -->
     <script src="{% url main:api %}"></script>
+    <!-- Components -->
+    <script src="{{ MEDIA_URL }}js/Ext.ux.ProjectsPanel.js"></script>
+    <!-- Our main viewport -->
+    <script src="{{ MEDIA_URL }}js/Ext.ux.MainViewport.js"></script>    
     <script type="text/javascript">
         //Initiliztion of QuickTips and Ext.BLANK_IMAGE_URL
         Ext.BLANK_IMAGE_URL = '{{ MEDIA_URL }}extjs/resources/images/default/s.gif';
@@ -31,7 +33,7 @@
         
         //Show error message for RPC exceptions
         Ext.Direct.on('exception', function(event){
-            Ext.ux.msg('RPC Error', event.result.error, Ext.Msg.ERROR);
+            Ext.ux.msg('RPC Error', event.message, Ext.Msg.ERROR);
         });        
     </script>      
 {% endblock %}
