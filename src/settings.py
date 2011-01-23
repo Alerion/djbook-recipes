@@ -107,6 +107,8 @@ INSTALLED_APPS = (
     'main'
 )
 
+PROJECTS_ON_PAGE = 10
+
 try:
     from settings_local import *
 except ImportError:
