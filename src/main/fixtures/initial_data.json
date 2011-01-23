@@ -1,0 +1,38 @@
+[
+    {
+        "pk": 1, 
+        "model": "main.project", 
+        "fields": {
+            "users": [], 
+            "name": "Django", 
+            "description": "Django is a high-level Python Web framework that encourages rapid development and clean, pragmatic design."
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "main.project", 
+        "fields": {
+            "users": [], 
+            "name": "Djbook", 
+            "description": "Russian translation of djangobook.com"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "main.project", 
+        "fields": {
+            "users": [], 
+            "name": "Project", 
+            "description": ""
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "main.project", 
+        "fields": {
+            "users": [], 
+            "name": "Project1", 
+            "description": ""
+        }
+    }
+]
