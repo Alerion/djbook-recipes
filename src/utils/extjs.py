@@ -67,8 +67,11 @@ class RpcRouter(object):
                 return HttpResponse('<script>document.domain=document.domain;</script><textarea>%s</textarea>' \
                                     % output)
         else:
-            requests = simplejson.loads(request.POST.keys()[0])
-            
+            try:
+                requests = simplejson.loads(request.POST.keys()[0])
+            except (ValueError, KeyError):
+                requests = []
+                            
         if not isinstance(requests, list):
                 requests = [requests]
             
