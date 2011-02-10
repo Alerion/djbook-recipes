@@ -34,7 +34,9 @@
         //Show error message for RPC exceptions
         Ext.Direct.on('exception', function(event){
             Ext.ux.msg('RPC Error', event.message, Ext.Msg.ERROR);
-        });        
+        });
+        
+        var PROJECTS_ON_PAGE = {{ PROJECTS_ON_PAGE }};
     </script>      
 {% endblock %}
 

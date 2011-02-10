@@ -2,6 +2,8 @@ Ext.ns('Ext.ux.stores');
 
 Ext.ux.stores.ProjectStore = new Ext.data.DirectStore({
     root: 'data',
+    storeId: 'projects',
+    totalProperty: 'count',
     fields: [
         'id',
         'name',
@@ -25,7 +27,7 @@ Ext.ux.tpl.ProjectTpl = new Ext.XTemplate(
 
 Ext.ux.ProjectsView = Ext.extend(Ext.DataView, {
     singleSelect: true,
-    store: Ext.ux.stores.ProjectStore,
+    store: 'projects',
     tpl: Ext.ux.tpl.ProjectTpl,
     emptyText: 'No projects',
     loadingText: 'Loading...',
@@ -55,7 +57,12 @@ Ext.ux.ProjectsPanel = Ext.extend(Ext.Panel, {
     initComponent: function(){
         this.projects_view = new Ext.ux.ProjectsView();
         var config = {
-            items: this.projects_view 
+            items: this.projects_view ,
+            bbar: new Ext.PagingToolbar({
+                store: 'projects',
+                displayInfo: true,
+                pageSize: PROJECTS_ON_PAGE
+            })            
         };
         Ext.apply(this, Ext.apply(this.initialConfig, config));
         Ext.ux.ProjectsPanel.superclass.initComponent.apply(this, arguments);             
