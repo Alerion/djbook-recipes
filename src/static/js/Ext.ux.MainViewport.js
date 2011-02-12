@@ -21,7 +21,6 @@ Ext.ux.MainViewport = Ext.extend(Ext.Viewport, {
                     scope: this
                 }]
             },{
-                //еще одна панель
                 region: 'east',
                 width: 350,
                 xtype: 'ext:ux:projects-panel'
